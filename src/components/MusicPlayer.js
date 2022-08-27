@@ -62,10 +62,11 @@ const handlePosition = (value) => {
 }
 
 return (
-
+<div class="container">
     <audio id='audio' preload='audio' ref = {audioRef} onLoadedMetadata={handleGetAudioData} onTimeUpdate={handleTimeUpdate}>
         <source src={SongList.find(x => x.id === songId).source} type='audio/mpeg'></source>
     </audio>
+    </div>
 
 
 )

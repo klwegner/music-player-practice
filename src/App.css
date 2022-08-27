@@ -4,11 +4,15 @@ body {
 
   background-color: aquamarine;
 }
-h1 {
+/* h1 {
   border-radius: 15px;
   background-color: aliceblue;
   width:40%;
   margin: 5% 30%;
   align-content: center;
   text-align: center;
+} */
+
+header {
+  position:fixed;
 }
