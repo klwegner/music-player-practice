@@ -9,10 +9,10 @@ function NavBar() {
   </button>
   <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div className="navbar-nav">
-      <Link to={'/'} className="nav-item nav-link active">Home <span className="sr-only">(current)</span></Link>
-      <Link to={'/aboutMuzakPlayer'} className="nav-item nav-link">About This Project</Link>
-      <Link to={'/aboutKristen'} className="nav-item nav-link">About Kristen</Link>
-      <Link to={'/'} className="nav-item nav-link disabled">Kristen's Portfolio</Link>
+      <Link className="nav-item nav-link active" to={'/'}>Home <span className="sr-only">(current)</span></Link>
+      <Link className="nav-item nav-link" to={'/aboutMuzakPlayer'}>About This Project</Link>
+      <Link className="nav-item nav-link" to={'/aboutKristen'}>About Kristen</Link>
+      <Link className="nav-item nav-link disabled" to={'/'}>Kristen's Portfolio</Link>
     </div>
   </div>
 </nav> 

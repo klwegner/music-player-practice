@@ -4,16 +4,18 @@ import PageTitle from './components/PageTitle';
 import NavBar from './components/NavBar';
 import AboutKristen from './pages/AboutKristen';
 import AboutMuzakPlayer from './pages/AboutMuzakPlayer';
+import HomePage from "./pages/HomePage";
 
 
 function App() {
   return (
     <div className="App">
-<PageTitle/>
     <NavBar/>
+    
     <Routes>
-<Route path='/aboutKristen' component={AboutKristen} />
-<Route path='/aboutMuzakPlayer' component={AboutMuzakPlayer} />
+    <Route path='/' element={<HomePage/>} />
+<Route path='/aboutKristen' element={<AboutKristen/>} />
+<Route path='/aboutMuzakPlayer' element={<AboutMuzakPlayer/>} />
     </Routes>
     </div>
   );
