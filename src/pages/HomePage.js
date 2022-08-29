@@ -1,4 +1,5 @@
 import PageTitle from "../components/PageTitle";
+import MusicPlayer from "../components/MusicPlayer";
 
 function HomePage(){
     return(
@@ -7,7 +8,7 @@ function HomePage(){
         </br>
         <br></br>
         <PageTitle/>
-<h1>Where the magic happens</h1>
+<MusicPlayer/>
 
 </>
     )
