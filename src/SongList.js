@@ -2,8 +2,8 @@ export const SongList = [
 {
     id: 1,
     title: 'Dreams Tonite',
-    source: './public/songs/02 - Dreams Tonite.mp3', //from assets folder for audio
-    cover:'./public/covers/51yjfBdUzgL._SX425_.jpg', //from cover folder in assets
+    source: './assets/songs/02 - Dreams Tonite.mp3', //from assets folder for audio
+    cover: require('./assets/covers/51yjfBdUzgL._SX425_.jpg'), //from cover folder in assets
     artist:'Alvvays',
     performer: 'Alvvays'
 },
@@ -11,8 +11,8 @@ export const SongList = [
 {
     id: 2,
     title: 'Fur Elise',
-    source: './public/songs/10 - Fur Elise.mp3', //from assets folder for audio
-    cover:'./public/covers/A_Charlie_Brown_Christmas.jpg', //from cover folder in assets
+    source: './assets/songs/10 - Fur Elise.mp3', //from assets folder for audio
+    cover: require('./assets/covers/A_Charlie_Brown_Christmas.jpg'), //from cover folder in assets
     artist:'Ludwig van Beethoven',
     performer: 'The Vince Guiraldi Trio'
 },  
@@ -35,4 +35,4 @@ export const SongList = [
 //     performer: ''
 // }   
 
-]
+];
