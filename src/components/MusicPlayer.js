@@ -1,139 +1,77 @@
-import { useEffect, useState, useRef } from 'react';
-import { SongList } from '../SongList';
+import { styled, Typography, Slider, Paper, Stack, Box } from '@mui/material';
 
 
+import VolumeDownIcon from '@mui/icons-material/VolumeDown';
+import VolumeUpIcon from '@mui/icons-material/VolumeUp';
+import VolumeOffIcon from '@mui/icons-material/VolumeOff';
+import VolumeMuteIcon from '@mui/icons-material/VolumeMute';
+import PauseIcon from '@mui/icons-material/Pause';
+import FastForwardIcon from '@mui/icons-material/FastForward';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+import SkipNextIcon from '@mui/icons-material/SkipNext';
+import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 
+
+import furElise from '../assets/songs/10 - Fur Elise.mp3';
+import dreamsTonite from '../assets/songs/02 - Dreams Tonite.mp3';
+
+const Div = styled('div')(({theme})=>({
+  backgroundColor: 'black',
+  height:'100vh',
+  width: '100vw',
+  paddingTop: theme.spacing(6)
+
+}))
+
+const CustomPaper = styled(Paper)(({theme})=>({
+backgroundColor: '#4c4c4c',
+marginLeft: theme.spacing(6),
+marginRight: theme.spacing(6),
+padding: theme.spacing(2)
+
+}))
+
+const PSlider = styled(Slider)(({theme, ...props})=>({
+color: 'silver',
+height: 2,
+'&:hover': {
+  cursor: 'auto',
+},
+'& .MuiSlider-thumb': {
+  width: '13px',
+  height: '13px'
+}
+}))
 
 
 function MusicPlayer() {
-    
-    const randomizer = Math.floor(Math.random() * (SongList.length - 1) + 1)
-    const [duration, setDuration] = useState(0);
-    const [position, setPosition] = useState(0);
-    const [paused, setPaused] = useState(true);
-    const [songId, setSongId] = useState(randomizer);
-    const [volume, setVolume] = useState(0.2);
-    const timeLeft = Math.floor(duration) - Math.floor(position);
-    const audioRef = useRef();
-    
-    
-
-    function formatDuration(value){
-        const minute = Math.floor(value / 60);
-        const secondLeft = Math.floor(value - minute * 60);
-        return `${minute}: ${secondLeft <= 9 ? `0${secondLeft}` : secondLeft}`;
-    }
-    
-    const handleGetAudioData = () => {
-        audioRef.current.volume = localStorage.getItem('volume');
-        if (audioRef.current) {
-            setDuration(audioRef.current.duration);
-        }
-    }
-    
-    const handleTimeUpdate = () => {
-        if (audioRef.current) {
-            setPosition(audioRef.current.currentTime)
-        }
-    
-        if (timeLeft === 0) {
-            handleSkipNext();
-        }
-    }
-    
-    
-    const handlePlay = () => {
-        
-        if(paused) {
-            audioRef.current.play();
-            setPaused(false)
-            console.log("playing")
-        } else {
-            audioRef.current.pause();
-            setPaused(true)
-            console.log("paused")
-        }
-    };
-    
-const handlePosition = (value) => {
-    setPosition(value);
-    audioRef.current.currentTime = position;
-}
-
-const handleRewind = () => {
-    setPosition(audioRef.current.currentTime - 5);
-    audioRef.current.currentTime -= 5;
-
-    if (position <= 0) {
-        setPosition(0);
-    }
-}
-
-const handleForward = () => {
-    setPosition(audioRef.current.currentTime + 5);
-    audioRef.current.currentTime += 5;
-
-    if (position >= duration) {
-        setPosition(duration);
-    }
-}
-
-const handleSkipNext = () => {
-    if (songId < SongList.length) {
-        setSongId(songId + 1);
-    }
-    if (songId === SongList.length) {
-        setSongId(1);
-    }
-    audioRef.current.load();
-
-    setTimeout(()=> {
-audioRef.current.play();
-    }, 1000)
-}
-
-const handleSkipPrevious = () => {
-    if (songId > 1) {
-        setSongId(songId - 1);
-    }
-    if (songId === 1) {
-        setSongId(SongList.length);
-    }
-    audioRef.current.load();
-    audioRef.current.play();
-}
-
-const handleVolume = (event, newVolume) => {
-    setVolume(newVolume);
-    localStorage.setItem('volume', newVolume);
-    audioRef.current.volume = newVolume;
-}
-
-useEffect(()=>{
-    localStorage.setItem('volume', 0.2);
-},[])
-
-return (
-<div className="container">
-    <audio id='audio' preload='none' ref = {audioRef} onLoadedMetadata={handleGetAudioData} onTimeUpdate={handleTimeUpdate}>
-        <source src={SongList.find(x => x.id === songId).source} type='audio/mp3'></source>
-    </audio>
-    <h2>{SongList.find(x => x.id===songId).artist}</h2>
-    <h1>{SongList.find(x=>x.id===songId).title}</h1>
-    <h4>{formatDuration(position)}-{formatDuration(duration - position)}</h4>
-    <img alt={SongList.find(x => x.id===songId).cover}
-     src={SongList.find(x => x.id===songId).cover} />
-     <br></br><br></br>
-<button onClick={handlePlay}>Pause</button>
-<button onClick={handlePlay}>Play</button>
-<button onClick={handleForward}>FF</button>
-<button onClick={handleRewind}>Rewind</button>
-<button onClick={handleSkipNext}>Next</button>
-<button onClick={handleSkipPrevious}>Previous</button>
-
-    </div>
 
 
-)
+  return (
+<Div>
+  <CustomPaper>
+    <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
+      <Stack direction='row' spacing={1} sx ={{display: 'flex', justifyContent: 'flex-start', width: '25%', alignItems: 'center'}}>
+        <VolumeDownIcon sx={{color: 'silver', '&:hover': {color: 'white'}}} />
+        <PSlider />
+      </Stack>
+      <Stack direction='row' spacing={1} sx={{ display: 'flex', width: '40%', alignItems: 'center' }}>
+      <SkipPreviousIcon sx={{color: 'silver', '&:hover': {color: 'white'}}} />
+
+
+
+{/* 
+used https://www.youtube.com/results?search_query=react+music+player+tutorial
+stopped at 15:10 */}
+
+
+
+
+
+      </Stack>
+    </Box>
+  </CustomPaper>
+</Div>
+  )
 }
 export default MusicPlayer;

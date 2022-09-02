@@ -1,20 +1,15 @@
-body {
+.player {
+  background-color: black;
+  height: 100vh;
+  width: 100vw;
+}
+
+.player2 {
+  background-color: #4c4c4c;
+  margin: 0 10vw;
+}
+
+.box {
   display:flex;
-  flex-direction: column;
-
-  background-color: aquamarine;
-}
-
-.container {
-  border:1px solid black;
-  border-radius:15px;
-  /* display: flex;
-  flex-direction: column;
-  justify-content: center; */
-}
-
-
-
-header {
-  position:fixed;
+  justify-content: space-between;
 }

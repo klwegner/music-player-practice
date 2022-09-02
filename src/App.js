@@ -1,21 +1,25 @@
 import {BrowserRouter as Router, Routes, Route} from "react-router-dom";
+
 import './App.css';
 import PageTitle from './components/PageTitle';
 import NavBar from './components/NavBar';
 import AboutKristen from './pages/AboutKristen';
 import AboutMuzakPlayer from './pages/AboutMuzakPlayer';
 import HomePage from "./pages/HomePage";
-
+import { SongList } from "./SongList";
+import MusicPlayer from "./components/MusicPlayer";
 
 function App() {
+
+
+
   return (
     <div className="App">
     <NavBar/>
-    
     <Routes>
     <Route path='/' element={<HomePage/>} />
 <Route path='/aboutKristen' element={<AboutKristen/>} />
-<Route path='/aboutMuzakPlayer' element={<AboutMuzakPlayer/>} />
+<Route path='/aboutMuzakPlayer' element={<AboutMuzakPlayer/>} />  
     </Routes>
     </div>
   );
