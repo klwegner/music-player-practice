@@ -49,7 +49,37 @@ function MusicPlayer() {
   const audioPlayer = useRef();
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentSong] = useState(furElise); 
- 
+  const [volume, setVolume] = useState(30);
+  const [mute, setMute] = useState(false);
+  const [duration, setDuration] = useState(0);
+  const [elapsed, setElapsed] = useState(0);
+
+  useEffect(() => {
+if (audioPlayer){
+  audioPlayer.current.volume = volume/100;
+}
+
+if (isPlaying) {
+  setInterval(() => {
+    const _duration = Math.floor(audioPlayer?.current?.duration);
+    const _elapsed = Math.floor(audioPlayer?.current?.currentTime);
+    setDuration(_duration);
+    setElapsed(_elapsed);
+  }, 100);
+
+}
+  }, [volume, isPlaying ])
+
+  function formatTime(time){
+    if (time && !isNaN(time)) {
+    const minutes = Math.floor(time / 60) < 10 ? `0${Math.floor(time / 60)}` : Math.floor(time / 60);
+    const seconds = Math.floor(time % 60) < 10 ? `0${Math.floor(time % 60)}` : Math.floor(time % 60);
+    return `${minutes}:${seconds}`;
+  } else {
+    return '00:00'
+  }
+}
+
   const togglePlay = () => {
     if(!isPlaying) {
     audioPlayer.current.play();
@@ -59,15 +89,35 @@ function MusicPlayer() {
   setIsPlaying(prev => !prev)
 }
 
+function VolumeBtns(){
+  return mute 
+  ? <VolumeOffIcon sx={{color: 'silver', '&hover': {color: 'white'}}} onClick={()=>setMute(!mute)} />
+  : volume <= 20 ? <VolumeMuteIcon sx={{color: 'silver', '&hover': {color: 'white'}}} onClick={()=>setMute(!mute)} />
+  : volume <= 75 ? <VolumeDownIcon sx={{color: 'silver', '&hover': {color: 'white'}}} onClick={()=>setMute(!mute)} />
+  : <VolumeUpIcon sx={{color: 'silver', '&hover': {color: 'white'}}} onClick={()=>setMute(!mute)} />
+}
+
+
+
+
+
+// stopped at 51 min
+
+
+
+
+
+
+
   return (
 <Div>
-<audio src={currentSong} ref={audioPlayer}/>
+<audio src={currentSong} ref={audioPlayer} muted={mute}/>
 
   <CustomPaper>
     <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
       <Stack direction='row' spacing={1} sx ={{display: 'flex', justifyContent: 'flex-start', width: '25%', alignItems: 'center'}}>
-        <VolumeDownIcon sx={{color: 'silver', '&:hover': {color: 'white'}}} />
-        <PSlider />
+      <VolumeBtns />
+      <PSlider min={0} max={100} value={volume} onChange={(e, v) => setVolume(v)} />
       </Stack>
       <Stack direction='row' spacing={1} sx={{ display: 'flex', width: '40%', alignItems: 'center' }}>
       <SkipPreviousIcon sx={{color: 'silver', '&:hover': {color: 'white'}}} />
@@ -85,9 +135,9 @@ function MusicPlayer() {
       <Stack sx={{display: 'flex', justifyContent: 'flex-end'}} />
       </Box>
       <Stack spacing={1} direction='row' sx={{display: 'flex', alignItems: 'center'}}>
-      <Typography sx={{color: 'silver'}}>00:00</Typography>
-      <PSlider thumbless />
-      <Typography sx={{color: 'silver'}}>00:00</Typography>
+      <Typography sx={{color: 'silver'}}>{formatTime(elapsed)}</Typography>
+      <PSlider thumbless value={elapsed} max={duration}/>
+      <Typography sx={{color: 'silver'}}>{formatTime(duration - elapsed)}</Typography>
       </Stack>
   </CustomPaper>
 </Div>
