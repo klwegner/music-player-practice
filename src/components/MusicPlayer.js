@@ -1,5 +1,5 @@
 import { styled, Typography, Slider, Paper, Stack, Box } from '@mui/material';
-
+import { useState, useEffect, useRef } from 'react';
 
 import VolumeDownIcon from '@mui/icons-material/VolumeDown';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
@@ -10,7 +10,7 @@ import FastForwardIcon from '@mui/icons-material/FastForward';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
-
+import FastRewindIcon from '@mui/icons-material/FastRewind';
 
 import furElise from '../assets/songs/10 - Fur Elise.mp3';
 import dreamsTonite from '../assets/songs/02 - Dreams Tonite.mp3';
@@ -39,16 +39,30 @@ height: 2,
 },
 '& .MuiSlider-thumb': {
   width: '13px',
-  height: '13px'
+  height: '13px',
+  display: props.thumbless ? 'none' : 'block',
 }
 }))
 
 
 function MusicPlayer() {
-
+  const audioPlayer = useRef();
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentSong] = useState(furElise); 
+ 
+  const togglePlay = () => {
+    if(!isPlaying) {
+    audioPlayer.current.play();
+  } else {
+    audioPlayer.current.pause();
+  }
+  setIsPlaying(prev => !prev)
+}
 
   return (
 <Div>
+<audio src={currentSong} ref={audioPlayer}/>
+
   <CustomPaper>
     <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
       <Stack direction='row' spacing={1} sx ={{display: 'flex', justifyContent: 'flex-start', width: '25%', alignItems: 'center'}}>
@@ -57,19 +71,24 @@ function MusicPlayer() {
       </Stack>
       <Stack direction='row' spacing={1} sx={{ display: 'flex', width: '40%', alignItems: 'center' }}>
       <SkipPreviousIcon sx={{color: 'silver', '&:hover': {color: 'white'}}} />
-
-
-
-{/* 
-used https://www.youtube.com/results?search_query=react+music+player+tutorial
-stopped at 15:10 */}
-
-
-
-
-
+      <FastRewindIcon sx={{color: 'silver', '&:hover': {color: 'white'}}} />
+     
+     {!isPlaying
+    ?  <PlayArrowIcon fontSize={'large'} sx={{color: 'silver', '&:hover': {color: 'white'}}} onClick={togglePlay}/>
+    :   <PauseIcon fontSize={'large'}  sx={{color: 'silver', '&:hover': {color: 'white'}}} onClick={togglePlay}/>
+     }
+     
+      <FastForwardIcon sx={{color: 'silver', '&:hover': {color: 'white'}}} />
+      <SkipNextIcon sx={{color: 'silver', '&:hover': {color: 'white'}}} />
       </Stack>
-    </Box>
+
+      <Stack sx={{display: 'flex', justifyContent: 'flex-end'}} />
+      </Box>
+      <Stack spacing={1} direction='row' sx={{display: 'flex', alignItems: 'center'}}>
+      <Typography sx={{color: 'silver'}}>00:00</Typography>
+      <PSlider thumbless />
+      <Typography sx={{color: 'silver'}}>00:00</Typography>
+      </Stack>
   </CustomPaper>
 </Div>
   )
