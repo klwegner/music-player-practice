@@ -14,17 +14,19 @@ import FastRewindIcon from '@mui/icons-material/FastRewind';
 
 import furElise from '../assets/songs/10 - Fur Elise.mp3';
 import dreamsTonite from '../assets/songs/02 - Dreams Tonite.mp3';
+import forgetAboutLife from '../assets/songs/10 - Forget About Life.mp3';
 
 const Div = styled('div')(({theme})=>({
-  backgroundColor: 'black',
-  height:'100vh',
+  // backgroundColor: 'black',
+  height:'100%',
   width: '100vw',
-  paddingTop: theme.spacing(6)
+  paddingTop: theme.spacing(9)
 
 }))
 
 const CustomPaper = styled(Paper)(({theme})=>({
-backgroundColor: '#4c4c4c',
+backgroundColor: 'black',
+// marginTop: theme.spacing(9),
 marginLeft: theme.spacing(6),
 marginRight: theme.spacing(6),
 padding: theme.spacing(2)
@@ -44,11 +46,13 @@ height: 2,
 }
 }))
 
+const playlist = [furElise, dreamsTonite, forgetAboutLife];
 
 function MusicPlayer() {
   const audioPlayer = useRef();
+  const [index, setIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [currentSong] = useState(furElise); 
+  const [currentSong] = useState(playlist[index]); 
   const [volume, setVolume] = useState(30);
   const [mute, setMute] = useState(false);
   const [duration, setDuration] = useState(0);
@@ -89,6 +93,34 @@ if (isPlaying) {
   setIsPlaying(prev => !prev)
 }
 
+const toggleForward = () => {
+  audioPlayer.current.currentTime += 10;
+}
+
+const toggleBackward = () => {
+  audioPlayer.current.currentTime -= 10;
+}
+
+const toggleSkipForward = () => {
+if (index >= playlist.length - 1) {
+  setIndex(0);
+  audioPlayer.current.src = playlist[0];
+  audioPlayer.current.play();
+} else {
+  setIndex(prev => prev + 1);
+  audioPlayer.current.src = playlist[index + 1];
+  audioPlayer.current.play();
+}
+}
+
+const toggleSkipBackward = () => {
+if (index > 0) {
+  setIndex(prev => prev - 1);
+  audioPlayer.current.src = playlist[index - 1];
+  audioPlayer.current.play();
+}
+}
+
 function VolumeBtns(){
   return mute 
   ? <VolumeOffIcon sx={{color: 'silver', '&hover': {color: 'white'}}} onClick={()=>setMute(!mute)} />
@@ -96,18 +128,6 @@ function VolumeBtns(){
   : volume <= 75 ? <VolumeDownIcon sx={{color: 'silver', '&hover': {color: 'white'}}} onClick={()=>setMute(!mute)} />
   : <VolumeUpIcon sx={{color: 'silver', '&hover': {color: 'white'}}} onClick={()=>setMute(!mute)} />
 }
-
-
-
-
-
-// stopped at 51 min
-
-
-
-
-
-
 
   return (
 <Div>
@@ -120,16 +140,16 @@ function VolumeBtns(){
       <PSlider min={0} max={100} value={volume} onChange={(e, v) => setVolume(v)} />
       </Stack>
       <Stack direction='row' spacing={1} sx={{ display: 'flex', width: '40%', alignItems: 'center' }}>
-      <SkipPreviousIcon sx={{color: 'silver', '&:hover': {color: 'white'}}} />
-      <FastRewindIcon sx={{color: 'silver', '&:hover': {color: 'white'}}} />
+      <SkipPreviousIcon sx={{color: 'silver', '&:hover': {color: 'white'}}} onClick={toggleSkipBackward}/>
+      <FastRewindIcon sx={{color: 'silver', '&:hover': {color: 'white'}}} onClick={toggleBackward}/>
      
      {!isPlaying
     ?  <PlayArrowIcon fontSize={'large'} sx={{color: 'silver', '&:hover': {color: 'white'}}} onClick={togglePlay}/>
     :   <PauseIcon fontSize={'large'}  sx={{color: 'silver', '&:hover': {color: 'white'}}} onClick={togglePlay}/>
      }
      
-      <FastForwardIcon sx={{color: 'silver', '&:hover': {color: 'white'}}} />
-      <SkipNextIcon sx={{color: 'silver', '&:hover': {color: 'white'}}} />
+      <FastForwardIcon sx={{color: 'silver', '&:hover': {color: 'white'}}} onClick={toggleForward} />
+      <SkipNextIcon sx={{color: 'silver', '&:hover': {color: 'white'}}} onClick ={toggleSkipForward} />
       </Stack>
 
       <Stack sx={{display: 'flex', justifyContent: 'flex-end'}} />

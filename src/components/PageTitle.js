@@ -1,9 +1,12 @@
+import 'animate.css';
+
 function PageTitle() {
 
     return(
 <div className="container">
-<h1>The Muzak Player</h1>
-<h2>Playing all your favorite tunes</h2>
+
+<h1 class="display-1 animate__animated animate__backInDown">The Muzak Player</h1>
+<h1 class="display-4 animate__animated animate__backInLeft">Playing some of Kristen's favorite tunes</h1>
 </div>
     )
 }

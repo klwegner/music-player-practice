@@ -12,7 +12,13 @@ function NavBar() {
       <Link className="nav-item nav-link active" to={'/'}>Home <span className="sr-only">(current)</span></Link>
       <Link className="nav-item nav-link" to={'/aboutMuzakPlayer'}>About This Project</Link>
       <Link className="nav-item nav-link" to={'/aboutKristen'}>About Kristen</Link>
-      <Link className="nav-item nav-link disabled" to={'/'}>Kristen's Portfolio</Link>
+
+
+      <a className="nav-item nav-link" href='https://klwegner.github.io/kwegnerPortfolio/'>Kristen's Portfolio</a>
+
+
+
+      {/* <Link className="nav-item nav-link" to={'https://klwegner.github.io/kwegnerPortfolio/'}>Kristen's Portfolio</Link> */}
     </div>
   </div>
 </nav> 

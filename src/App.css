@@ -1,4 +1,4 @@
-.player {
+/* .player {
   background-color: black;
   height: 100vh;
   width: 100vw;
@@ -12,4 +12,23 @@
 .box {
   display:flex;
   justify-content: space-between;
+} */
+
+/* body {
+  background-image: url('../src/assets/pexels-pixabay-417458.jpg');
+} */
+
+.mainPic {
+  width: 40%;
+  height: auto;
+  margin: 2% 30%;
+  border-radius:50%;
 }
+
+.display-4 {
+  text-align: right;
+}
+
+/* .nav-item p, h1, h2, h3, h4, a{
+  color:#09D8A9;
+} */
