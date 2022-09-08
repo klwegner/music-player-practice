@@ -17,7 +17,6 @@ import dreamsTonite from '../assets/songs/02 - Dreams Tonite.mp3';
 import forgetAboutLife from '../assets/songs/10 - Forget About Life.mp3';
 
 const Div = styled('div')(({theme})=>({
-  // backgroundColor: 'black',
   height:'100%',
   width: '100vw',
   paddingTop: theme.spacing(9)
@@ -26,7 +25,6 @@ const Div = styled('div')(({theme})=>({
 
 const CustomPaper = styled(Paper)(({theme})=>({
 backgroundColor: 'black',
-// marginTop: theme.spacing(9),
 marginLeft: theme.spacing(6),
 marginRight: theme.spacing(6),
 padding: theme.spacing(2)
@@ -134,12 +132,12 @@ function VolumeBtns(){
 <audio src={currentSong} ref={audioPlayer} muted={mute}/>
 
   <CustomPaper>
-    <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
-      <Stack direction='row' spacing={1} sx ={{display: 'flex', justifyContent: 'flex-start', width: '25%', alignItems: 'center'}}>
+    <Box sx={{display: 'flex', flexDirection: {xs: 'column', md: 'row'}, justifyContent: 'space-between'}}>
+      <Stack direction='row' spacing={1} sx ={{display: 'flex', justifyContent: {sm: 'center', md:'flex-start'}, width: {xs: '100%', md:'25%'}, alignItems: 'center', }}>
       <VolumeBtns />
       <PSlider min={0} max={100} value={volume} onChange={(e, v) => setVolume(v)} />
       </Stack>
-      <Stack direction='row' spacing={1} sx={{ display: 'flex', width: '40%', alignItems: 'center' }}>
+      <Stack direction='row' spacing={1} sx={{ display: 'flex', width: {xs: '100%', md: '40%'}, alignItems: 'center', justifyContent: {xs: 'space-between', md: 'flex-start'} }}>
       <SkipPreviousIcon sx={{color: 'silver', '&:hover': {color: 'white'}}} onClick={toggleSkipBackward}/>
       <FastRewindIcon sx={{color: 'silver', '&:hover': {color: 'white'}}} onClick={toggleBackward}/>
      
