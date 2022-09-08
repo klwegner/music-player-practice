@@ -19,7 +19,7 @@ import forgetAboutLife from '../assets/songs/10 - Forget About Life.mp3';
 const Div = styled('div')(({theme})=>({
   height:'100%',
   width: '100vw',
-  paddingTop: theme.spacing(9)
+  paddingTop: theme.spacing(2)
 
 }))
 
