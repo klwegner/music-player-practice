@@ -62,19 +62,11 @@ function MusicPlayer() {
   const [mute, setMute] = useState(false);
   const [duration, setDuration] = useState(0);
   const [elapsed, setElapsed] = useState(0);
-
-  //new
-
   const canvasRef = useRef(null);
   const audioCtx = useRef(null);
   const audioSource = useRef(null);
   const analyser = useRef(null);
   const animationFrameId = useRef(null);
-
-  // let x = 0;
-  // const ctx = canvasRef.current?.getContext("2d");
-
-  //new
 
   useEffect(() => {
     const playAudio = () => {
