@@ -17,9 +17,11 @@ import dreamsTonite from "../assets/songs/02 - Dreams Tonite.mp3";
 import forgetAboutLife from "../assets/songs/10 - Forget About Life.mp3";
 
 const Div = styled("div")(({ theme }) => ({
-  height: "100%",
+  height: "auto",
   width: "100vw",
-  paddingTop: theme.spacing(2),
+  bottom: 0,
+  position: "fixed",
+  //  border: "1px solid red"
 }));
 
 const CustomPaper = styled(Paper)(({ theme }) => ({
@@ -27,6 +29,7 @@ const CustomPaper = styled(Paper)(({ theme }) => ({
   marginLeft: theme.spacing(6),
   marginRight: theme.spacing(6),
   padding: theme.spacing(2),
+  //  border: "1px solid yellow"
 }));
 
 const PSlider = styled(Slider)(({ theme, ...props }) => ({
@@ -43,12 +46,11 @@ const PSlider = styled(Slider)(({ theme, ...props }) => ({
 }));
 
 const CanvasArea = styled("div")(({ theme }) => ({
-  width: "80%",
-  height: "75vh",
-  margin: "0 10%",
-  backgroundColor: "grey",
+  width: "100%",
+  height: "auto",
   display: "flex",
   justifyContent: "center",
+  //  border: "10px solid pink"
 }));
 
 const playlist = [furElise, dreamsTonite, forgetAboutLife];
@@ -68,15 +70,21 @@ function MusicPlayer() {
   const analyser = useRef(null);
   const animationFrameId = useRef(null);
 
+  //animates if audio is playing; calls handleNextSong when song ends, allows for pause to erase canvas
   useEffect(() => {
     const playAudio = () => {
       audioPlayer.current.play();
       animate();
     };
+
     if (isPlaying) {
       audioCtx.current
         .resume()
         .then(playAudio)
+        .then(() => {
+          audioPlayer.current.addEventListener("ended", handleNextSong);
+          playAudio();
+        })
         .catch((error) => {
           console.error("Failed to resume AudioContext:", error);
         });
@@ -86,6 +94,7 @@ function MusicPlayer() {
     }
   }, [isPlaying]);
 
+  //allows duration, elapsed time, and volume to function
   useEffect(() => {
     if (audioPlayer) {
       audioPlayer.current.volume = volume / 100;
@@ -100,6 +109,7 @@ function MusicPlayer() {
     }
   }, [volume, isPlaying]);
 
+  //enables animation based on current song
   useEffect(() => {
     if (currentSong && audioCtx.current) {
       if (!audioSource.current) {
@@ -125,13 +135,16 @@ function MusicPlayer() {
     const dataArray = new Uint8Array(analyser.current.frequencyBinCount);
     const barWidth = canvasRef.current.width / dataArray.length;
 
+    const colors = ["#474F7A", "#81689D", "#FFD0EC", "#1F2544"];
+    let colorIndex = 0;
+
     const draw = () => {
       analyser.current.getByteFrequencyData(dataArray);
       ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height);
       let x = 0;
       dataArray.forEach((value) => {
         const barHeight = value;
-        ctx.fillStyle = "white";
+        ctx.fillStyle = colors[colorIndex];
         ctx.fillRect(
           x,
           canvasRef.current.height - barHeight,
@@ -139,10 +152,21 @@ function MusicPlayer() {
           barHeight
         );
         x += barWidth;
+        colorIndex = (colorIndex + 1) % colors.length; // Cycle through colors
       });
       animationFrameId.current = requestAnimationFrame(draw);
     };
     draw();
+  };
+
+  const handleNextSong = () => {
+    setIndex((prevIndex) => {
+      const nextIndex = prevIndex >= playlist.length - 1 ? 0 : prevIndex + 1;
+      audioPlayer.current.src = playlist[nextIndex];
+      audioPlayer.current.play();
+
+      return nextIndex;
+    });
   };
 
   function formatTime(time) {
@@ -250,7 +274,7 @@ function MusicPlayer() {
   return (
     <>
       <CanvasArea>
-        <canvas ref={canvasRef} />
+        <canvas ref={canvasRef} style={{ width: "100%" }} />
       </CanvasArea>
       <Div>
         <audio src={currentSong} ref={audioPlayer} muted={mute} />
