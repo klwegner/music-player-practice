@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { styled, Typography, Slider, Paper, Stack, Box } from "@mui/material";
 import { useState, useEffect, useRef } from "react";
 
