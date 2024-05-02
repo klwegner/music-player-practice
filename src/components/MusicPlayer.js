@@ -47,10 +47,21 @@ const PSlider = styled(Slider)(({ theme, ...props }) => ({
 
 const CanvasArea = styled("div")(({ theme }) => ({
   width: "100%",
-  height: "auto",
+  // height: "auto",
+  height: "calc(100vh - 175px)",
   display: "flex",
   justifyContent: "center",
+  position: "relative",
   //  border: "10px solid pink"
+}));
+
+const Title = styled("div")(({ theme }) => ({
+  width: "100%",
+  height: "auto",
+  // border: "4px solid green",
+  backgroundColor: "transparent",
+  position: "absolute",
+  top: 65,
 }));
 
 const playlist = [furElise, dreamsTonite, forgetAboutLife];
@@ -69,6 +80,43 @@ function MusicPlayer() {
   const audioSource = useRef(null);
   const analyser = useRef(null);
   const animationFrameId = useRef(null);
+  const [previousTitle, setPreviousTitle] = useState("");
+
+  const extractSongTitle = (songName) => {
+    const hyphenIndex = songName.indexOf("-");
+    if (hyphenIndex !== -1) {
+      const periodIndex = songName.indexOf(".", hyphenIndex);
+      if (periodIndex !== -1) {
+        // Extract the substring between the hyphen and the period
+        return songName.substring(hyphenIndex + 2, periodIndex);
+      }
+    }
+    // else return full song name
+    return songName;
+  };
+
+  const [title, setTitle] = useState(extractSongTitle(playlist[index]));
+
+  // Update the title when isPlaying is true and the song changes
+  useEffect(() => {
+    if (isPlaying) {
+      setTitle(extractSongTitle(playlist[index]));
+    }
+  }, [isPlaying, index]);
+
+  // Listen for the "ended" event on the audio element
+  useEffect(() => {
+    const handleSongEnd = () => {
+      // Update previousTitle when a song ends
+      setPreviousTitle(title);
+    };
+    if (audioPlayer.current) {
+      audioPlayer.current.addEventListener("ended", handleSongEnd);
+      return () => {
+        audioPlayer.current.removeEventListener("ended", handleSongEnd);
+      };
+    }
+  }, [title]);
 
   //animates if audio is playing; calls handleNextSong when song ends, allows for pause to erase canvas
   useEffect(() => {
@@ -164,7 +212,6 @@ function MusicPlayer() {
       const nextIndex = prevIndex >= playlist.length - 1 ? 0 : prevIndex + 1;
       audioPlayer.current.src = playlist[nextIndex];
       audioPlayer.current.play();
-
       return nextIndex;
     });
   };
@@ -273,6 +320,11 @@ function MusicPlayer() {
 
   return (
     <>
+      {isPlaying && title !== previousTitle && (
+        <Title className="animate__animated animate__fadeOut animate__delay-5s animate__slower">
+          <p className="text-light text-center ">{title}</p>
+        </Title>
+      )}
       <CanvasArea>
         <canvas ref={canvasRef} style={{ width: "100%" }} />
       </CanvasArea>
